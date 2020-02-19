@@ -7,43 +7,31 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 	<?php
 	session_start();
 	require_once 'conn.php';
+
+	if (isset($_POST["add"])) {
+		require_once 'payment/addPayment.php';
+		addPayment();
+	}
+
+	if (isset($_POST["login"])) {
+		require_once 'login/login.php';
+		login();
+		echo $_SESSION["log"];
+	}
+
+	if (isset($_POST["logout"])) {
+		require_once 'login/logout.php';
+		logout();
+	}
 	?>
 	
 	<?php
-	if (isset($_POST["add"])) {
-		require_once 'addPayment.php';
-		addPayment();
-	}
-	?>
-
-	<?php
-	# login (podívat se na to, dvojitá podmínka)
-	if (isset($_POST["login"]) && $_POST["email"] != "" && $_POST["password"] != "") {
-		require_once 'login.php';
-		login();
-	}
-
-	#logout
-	if (isset($_POST["logout"])) {
-		require_once 'logout.php';
-		logout();
-	}
-
-	# initial
-	if (isset($_SESSION["log"]) && $_SESSION["log"] == true) {
-		require_once 'entryWin.php';
-		require_once 'login.php';
-		entryWin();
-		echo login();
-	} else {
-		require_once 'loginWin.php';
-		require_once 'login.php';
-		loginWin();
-		echo login();
-	}
+	require_once 'GUI.php';
+	GUI();
 	?>
 	
 	<!-- SCRIPTS -->
