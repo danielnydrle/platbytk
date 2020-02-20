@@ -20,7 +20,6 @@
 	if (isset($_POST["login"])) {
 		require_once 'login/login.php';
 		login();
-		echo $_SESSION["log"];
 	}
 
 	if (isset($_POST["logout"])) {
