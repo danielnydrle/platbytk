@@ -9,7 +9,7 @@ function validatePayment() {
 	";
 	$stmt = mysqli_stmt_init($GLOBALS["conn"]);
 	mysqli_stmt_prepare($stmt, $sql);
-	mysqli_stmt_bind_param($stmt, "ss", $person, $month);
+	mysqli_stmt_bind_param($stmt, "si", $person, $month);
 	mysqli_stmt_execute($stmt);
 	$result = mysqli_stmt_get_result($stmt);
 	$arr = mysqli_fetch_assoc($result);
