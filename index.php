@@ -10,27 +10,34 @@
 
 	<?php
 	session_start();
-	require_once 'conn.php';
+	require 'models/ConnectionModel.php';
+	$conn = new ConnectionModel();
+	$conn->connect();
 
 	if (isset($_POST["add"])) {
-		require_once 'payment/addPayment.php';
-		addPayment();
+		require_once 'controllers/PaymentController.php';
+		$controller = new PaymentController();
+		$controller->addPayment();
 	}
 
 	if (isset($_POST["login"])) {
-		require_once 'login/login.php';
-		login();
+		require_once 'controllers/LoginController.php';
+		$controller = new LoginController();
+		$controller->login();
+
 	}
 
 	if (isset($_POST["logout"])) {
-		require_once 'login/logout.php';
-		logout();
+		require_once 'controllers/LogoutController.php';
+		$controller = new LogoutController();
+		$controller->logout();
 	}
 	?>
 	
 	<?php
-	require_once 'GUI.php';
-	GUI();
+	require_once 'views/View.php';
+	$view = new View();
+	$view->show();
 	?>
 	
 	<!-- SCRIPTS -->
