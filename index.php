@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Login</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" href="style.css">
+	<title>Spotify platby</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 </head>
 <body>
 
 	<?php
 	session_start();
-	require 'models/ConnectionModel.php';
-	$conn = new ConnectionModel();
-	$conn->connect();
+	require 'models/Db.php';
+	$db = new Db();
+	$db::open("localhost", "root", "pass", "spotify");
 
-	if (isset($_POST["add"])) {
+	if (isset($_POST["addPayment"])) {
 		require_once 'controllers/PaymentController.php';
 		$controller = new PaymentController();
 		$controller->addPayment();
@@ -31,6 +30,24 @@
 		require_once 'controllers/LogoutController.php';
 		$controller = new LogoutController();
 		$controller->logout();
+	}
+
+	if (isset($_POST["addUser"])) {
+		require_once 'controllers/ManageUserController.php';
+		$controller = new ManageUserController();
+		$controller->addUser();
+	}
+
+	if (isset($_POST["deleteUser"])) {
+		require_once 'controllers/ManageUserController.php';
+		$controller = new ManageUserController();
+		$controller->deleteUser();
+	}
+
+	if (isset($_POST["changePassword"])) {
+		require_once 'controllers/ManageUserController.php';
+		$controller = new ManageUserController();
+		$controller->changePassword();
 	}
 	?>
 	
