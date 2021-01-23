@@ -2,6 +2,8 @@
 
 mb_internal_encoding("UTF-8");
 
+date_default_timezone_set("Europe/Prague");
+
 function autoload($class)
 {
     if (preg_match('/Controller$/', $class))

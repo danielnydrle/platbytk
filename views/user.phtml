@@ -56,6 +56,20 @@
 						</div>
 					</div>
 				</div>
+				<?php if (!PaymentModel::isPayment(Ssn::get("loggedUser")["userid"], (int)date("m"), (int)"20".date("y"))): ?>
+					<div class="row">
+						<div class="col mb-3">
+							<div class="card">
+								<img src="http://api.paylibo.com/paylibo/generator/czech/image
+								?accountNumber=<?php echo $this->data["qrdata"]["accountNumber"] ?>
+								&bankCode=<?php echo $this->data["qrdata"]["bankCode"] ?>
+								&amount=<?php echo $this->data["qrdata"]["amount"] ?>
+								&currency=CZK
+								&message=<?php echo "PLATBA SPOTIFY " . (int)date("m") . "/" . (int)date("y") . " | " . Ssn::get("loggedUser")["username"]?>">
+							</div>
+						</div>
+					</div>
+				<?php endif ?>
 			</div>
 		</div>
 		<br>

@@ -25,6 +25,8 @@ class UserController extends Controller {
 
 			$this->data["payments"] = PaymentModel::showPayments(Ssn::get("loggedUser")["userid"]);
 
+			$this->data["qrdata"] = PaymentModel::qrData(Ssn::get("loggedUser")["userid"]);
+
 		}
 
 		else if (Ssn::get("loggedUser")["userrole"] == "a") {
