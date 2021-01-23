@@ -1,35 +1,37 @@
 <?php
+
 class LoginModel {
+
+	private static function validate($_username, $_password) {
+		return Db::queryRow("SELECT * FROM users WHERE username = ? AND password = ?;", [$_username, $_password]);
+	}
+
+	public static function login($_username, $_password) {
+		$user = self::validate($_username, $_password);
+		if ($user) {
+			$userid = $user["userid"];
+			Ssn::set("loggedUser", $user);
+			self::log($user["userid"], 1);
+			var_dump(Ssn::get("loggedUser"));
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
-	public function validateLogin($username, $password) {
-		$row = Db::queryRow("SELECT username, password, role, family FROM users WHERE username = ?;", [$username]);
-		if ($username != "" && $password != "" && !is_null($row) && $row["password"] == $password) {
-			$_SESSION["role"] = $row["role"];
-			$_SESSION["family"] = $row["family"];
-			return true;
-		} else {
-			return false;
-		}
+	public static function logout() {
+		self::log(Ssn::get("loggedUser")["userid"], 0);
+		Ssn::destroy();
+	}	
+
+	private static function log($_userid, $_login) {
+		Db::input("INSERT INTO log (userid, login, dt) VALUES (?, ?, NOW());", [$_userid, $_login]);
 	}
 
-	public function log($username, $password) {
-		if ($this->validateLogin($username, $password)) {
-			$_SESSION["user"] = $username;
-			$_SESSION["log"] = true;
-			$login = boolval(true);
-			$success = boolval(true);
-			$timedate = date_timestamp_get(date_create());
-			Db::input("INSERT INTO log (username, login, success, timedate) VALUES (?, ?, ?, ?);", [$username, $login, $success, $timedate]);
-			return true;
-		} else {
-			$_SESSION["log"] = false;
-			$login = boolval(true);
-			$success = boolval(false);
-			$timedate = date_timestamp_get(date_create());
-			Db::input("INSERT INTO log (username, login, success, timedate) VALUES (?, ?, ?, ?);", [$username, $login, $success, $timedate]);
-			return false;
-		}
+	public static function role($_username) {
+		echo "ahoj";
+		return Db::queryRow("SELECT userrole FROM users WHERE username = ?;", [$_username])["userrole"];
 	}
-
 }
+
 ?>

@@ -1,19 +1,23 @@
 <?php
-class paymentModel {
 
-	public function validatePayment($username, $month, $year) {
-		$row = Db::queryRow("SELECT username, month, year FROM payments WHERE username = ? AND month = ? AND year = ?;", [$username, $month, $year]);
-		return ($username != "" && $month != "" && $year != "" && $row == false) ? true : false;
+class PaymentModel {
+
+	private static function isPayment($_userid, $_month, $_year) {
+		return Db::queryRow("SELECT * FROM payments WHERE userid = ? AND month = ? AND year = ?;", [$_userid, $_month, $_year]);
 	}
 
-	public function addPayment($username, $month, $year) {
-		if ($this->validatePayment($username, $month, $year)) {
-			Db::input("INSERT INTO payments (username, month, year) VALUES (?, ?, ?);", [$username, $month, $year]);
+	public static function addPayment($_userid, $_month, $_year) {
+		if (!self::isPayment($_userid, $_month, $_year)) {
+			Db::input("INSERT INTO payments (userid, month, year) VALUES (?, ?, ?);", [$_userid, $_month, $_year]);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
+	public static function showPayments($_userid) {
+		return Db::queryAll("SELECT * FROM payments WHERE userid = ? ORDER BY year DESC, month DESC;", [$_userid]);
+	}
 }
+
 ?>

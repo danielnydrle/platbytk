@@ -1,33 +1,34 @@
 <?php
+
 class ManageUserModel {
 
-	public function isUser($username) {
-		$row = Db::queryRow("SELECT username FROM users WHERE username = ?;", [$username]);
-		return ($username != "" && $row != false) ? true : false;
+	private static function isUser($_username) {
+		return Db::queryRow("SELECT username FROM users WHERE username = ?;", [$_username]);
 	}
 
-	public function addUser($username) {
-		if (!$this->isUser($username)) {
-			$password = hash("sha512", $username);
-			$role = "u";
-			$family = $_SESSION["family"];
-			Db::input("INSERT INTO users (username, password, role, family) VALUES (?, ?, ?, ?);", [$username, $password, $role, $family]);
+	public static function addUser($_username) {
+		if (!self::isUser($_username)) {
+			$password = hash("sha512", $_username);
+			$familyid = Ssn::get("loggedUser")["familyid"];
+			Db::input("INSERT INTO users (username, password, familyid, userrole) VALUES (?, ?, ?, 'u');", [$_username, $password, $familyid]);
 		}
 	}
 
-	public function deleteUser($username) {
-		if ($this->isUser($username)) {
-			Db::input("DELETE FROM users WHERE username = ?;", [$username]);
-			Db::input("DELETE FROM payments WHERE username = ?;", [$username]);
-			Db::input("DELETE FROM log WHERE username = ?;", [$username]);
+	public static function deleteUser($_username) {
+		if (self::isUser($_username)) {
+			Db::input("DELETE FROM users WHERE username = ?;", [$_username]);
 		}
 	}
 
-	public function changePassword($password) {
-		if ($password != "") {
-			$username = $_SESSION["user"];
-			Db::input("UPDATE users SET password = ? WHERE username = ?;", [$password, $username]);
-		}
+	public static function changePassword($_password) {
+		$username = Ssn::get("loggedUser")["username"];
+		Db::input("UPDATE users SET password = ? WHERE username = ?;", [hash("sha512", $_password), $username]);
 	}
+
+	public static function familyUsers() {
+		return Db::queryAll("SELECT * FROM users WHERE familyid = ?", [Ssn::get("loggedUser")["familyid"]]);
+	}
+
 }
+
 ?>

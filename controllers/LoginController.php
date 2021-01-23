@@ -1,20 +1,32 @@
 <?php
-require 'models/LoginModel.php';
 
-class LoginController {
+class LoginController extends Controller {
 
-	public $name;
-	public $password;
-	public $model;
+	public function process($_params) {
 
-	public function __construct() {
-		$this->name = $_POST["name"];
-		$this->password = hash("sha512", $_POST["password"]);
-		$this->model = new LoginModel();
+		$this->data = [];
+		$this->header["title"] = "Platby.tk přihlášení";
+		$this->view = "login";
+
+		if (isset($_POST["login"])) {
+
+			if (LoginModel::login($_POST["login-username"], hash("sha512", $_POST["login-password"]))) {
+				switch (LoginModel::role($_POST["login-username"])) {
+					case 'a':
+						$this->route("admin");
+						break;
+					case 'u':
+						$this->route("user");
+					default:
+						break;
+				}
+				
+			}
+
+		}
+		
 	}
 
-	public function login() {
-		$this->model->log($this->name, $this->password);
-	}
 }
+
 ?>
