@@ -1,12 +1,41 @@
-<body class="login">
-    <form class="form-signin" action="" method="post">
-        <input type="hidden" name="login" value="1">
-        <h1 class="h3 mb-3 font-weight-normal">Přihlášení</h1>
-        <label class="sr-only">Jméno</label>
-        <input type="text" name="login-username" class="form-control" placeholder="Jméno" required="required">
-        <label class="sr-only">Heslo</label>
-        <input type="password" name="login-password" class="form-control" placeholder="Heslo" required="required"></br>
-        <input type="submit" class="btn btn-lg btn-success btn-block" value="Přihlásit se">
-        <p class="mt-5 mb-3 text-muted">&copy;2020 Platby.tk</p>
-    </form>
+<body>
+	<div class="section">
+		<div class="container">
+			<main>
+				<div class="columns login">
+					<div class="column has-text-centered is-full-mobile is-half-tablet is-one-third-desktop">
+						<form action="" id="form-login" class="form-login box" method="post">
+							<div class="block">
+								<h1 class="is-size-4">Přihlášení</h1>
+							</div>
+							<div class="block">
+								<div class="field">
+									<div class="control has-icons-left">
+										<input type="text" id="login-username" name="login-username" class="input" placeholder="Jméno" required="required">
+										<span class="icon is-small is-left">
+											<i class="fas fa-user"></i>
+										</span>
+									</div>
+								</div>
+								<div class="field">
+									<div class="control has-icons-left">
+										<input type="password" id="login-password" name="login-password" class="input" placeholder="Heslo" required="required">
+										<span class="icon is-small is-left">
+											<i class="fas fa-lock"></i>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="field">
+								<div class="control has-text-centered">
+									<input type="submit" id="signin" class="button is-medium is-fullwidth is-primary" name="login" value="Přihlásit se">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
+	
 </body>

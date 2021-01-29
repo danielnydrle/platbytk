@@ -9,7 +9,7 @@ class AdminController extends Controller {
 		if (Ssn::get("loggedUser")["userrole"] == "a") {
 			$this->data = [];
 			$this->view = "admin";
-			$this->header["title"] = "Administrace Platby.tk (" . Ssn::get("loggedUser")["username"] . " – rodina " . Ssn::get("loggedUser")["familyid"] . ")";
+			$this->header["title"] = "Administrace Platby.tk (" . Ssn::get("loggedUser")["username"] . " – skupina " . Ssn::get("loggedUser")["familyid"] . ")";
 
 			if (isset($_POST["admin-addpayment"])) {
 				PaymentModel::addPayment(
@@ -17,15 +17,16 @@ class AdminController extends Controller {
 					$_POST["admin-addpayment-month"],
 					$_POST["admin-addpayment-year"]
 				);
+				$this->data["show-payments"] = PaymentModel::showPayments($_POST["admin-addpayment-user"]);
 			}
 
 			if (isset($_POST["admin-adduser"])) {
-				$this->data["admin-adduser-username"] = $_POST["admin-adduser-username"];
+				$this->data["admin-adduser-username"] = $_POST["admin-manageuser-username"];
 				ManageUserModel::addUser($this->data["admin-adduser-username"]);
 			}
 
 			if (isset($_POST["admin-deleteuser"])) {
-				$this->data["admin-deleteuser-username"] = $_POST["admin-deleteuser-username"];
+				$this->data["admin-deleteuser-username"] = $_POST["admin-manageuser-username"];
 				ManageUserModel::deleteUser($this->data["admin-deleteuser-username"]);
 			}
 

@@ -9,7 +9,6 @@ class LoginController extends Controller {
 		$this->view = "login";
 
 		if (isset($_POST["login"])) {
-
 			if (LoginModel::login($_POST["login-username"], hash("sha512", $_POST["login-password"]))) {
 				switch (LoginModel::role($_POST["login-username"])) {
 					case 'a':

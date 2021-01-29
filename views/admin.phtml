@@ -1,137 +1,236 @@
 <body>
-    <div class="container">
-        <br>
-        <div class="row">
-            <div class="col-sm-8 mb-3">
-                <div class="card">
-                    <h5 class="card-header">Vložit platbu</h5>
-                    <div class="card-body">
-                        <form class="card-text" action="" method="post">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Jméno:</label>
-                                <div class="col">
-                                    <select autofocus name="admin-addpayment-user" class="form-control">
-                                        <?php foreach ($this->data["familyUsers"] as $user): ?>
-                                            <?php if ($user["userid"] != Ssn::get("loggedUser")["userid"]): ?>
-                                                <option value="<?php echo $user['userid']; ?>"><?php echo $user["username"]; ?></option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Měsíc:</label>
-                                <div class="col">
-                                    <input class="form-control" type="number" min="1" max="12" name="admin-addpayment-month" required="required">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Rok:</label>
-                                <div class="col">
-                                    <input class="form-control" type="number" min="2019" max="2035" name="admin-addpayment-year" required="required">
-                                </div>
-                            </div>
-                        </div>
-                        <input class="btn btn-lg btn-success btn-block" type="submit" name="admin-addpayment" value="Přidat platbu">
-                    </form>
-                </div>
-            </div>
-            <div class="col-sm-4 mb-3">
-                <div class="card">
-                    <h5 class="card-header">Uživatelské informace</h5>
-                    <div class="card-body">
-                        <p>Přihlášen jako <?php echo Ssn::get("loggedUser")["username"]?></br>(skupina <?php echo Ssn::get("loggedUser")["familyid"] ?>)</p>
-                    </div>
-                    <form action="" method="post">
-                        <input class="btn btn-danger btn-block" type="submit" name="logout" value="Odhlásit se">
-                    </form>
-                </div>
-            </div>
-            <div class="col-sm-4 mb-3">
-                <div class="card">
-                    <h5 class="card-header">Přidat člena</h5>
-                    <form action="" method="post">
-                        <div class="form-group row">
-                            <div class="col mx-3 mt-3">
-                                <input class="form-control" type="text" name="admin-adduser-username" required="required">
-                            </div>
-                        </div>
-                        <input class="btn btn-success btn-block" type="submit" name="admin-adduser" value="Přidat člena">
-                    </form>
-                </div>
-            </div>
-            <div class="col-sm-4 mb-3">
-                <div class="card">
-                    <h5 class="card-header">Odebrat člena</h5>
-                    <form action="" method="post">
-                        <div class="form-group row">
-                            <div class="col mx-3 mt-3">
-                                <input class="form-control" type="text" name="admin-deleteuser-username" required="required">
-                            </div>
-                        </div>
-                        <input class="btn btn-danger btn-block" type="submit" name="admin-deleteuser" value="Odebrat člena">
-                    </form>
-                </div>
-            </div>
-            <div class="col-sm-4 mb-3">
-                <div class="card">
-                    <h5 class="card-header">Změna hesla</h5>
-                    <form action="" method="post">
-                        <div class="form-group row">
-                            <div class="col mx-3 mt-3">
-                                <input class="form-control" type="password" name="changepassword-password" required="required">
-                            </div>
-                        </div>
-                        <input class="btn btn-warning btn-block" type="submit" name="changepassword" value="Změnit heslo">
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <h5 class="card-header">Platby</h5>
-                    <div class="card-body">
-                        <form class="card-text" action="" method="post">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Jméno:</label>
-                                <div class="col">
-                                    <select autofocus name="admin-showpayments-user" class="form-control">
-                                        <?php foreach ($this->data["familyUsers"] as $user): ?>
-                                            <?php if ($user["userid"] != Ssn::get("loggedUser")["userid"]): ?>
-                                                <option value="<?php echo $user['userid']; ?>"><?php echo $user["username"]; ?></option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <input class="btn btn-lg btn-success btn-block" type="submit" name="admin-showpayments" value="Zobrazit platby">
-                        <div class="container">
-                            <?php if (isset($this->data["show-payments"])): ?>
-                                <table class="table table-striped table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Měsíc</th>
-                                            <th>Rok</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($this->data["show-payments"] as $_payment): ?>
-                                            <tr>
-                                                <td><?php echo $_payment["month"] ?></td>
-                                                <td><?php echo $_payment["year"] ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            <?php endif ?>
-                        </div>
-                    </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-    </div>
+	<div class="section">
+		<div class="container">
+			<main>
+				<div class="columns">
+					<div class="column is-full-mobile is-one-third-tablet">
+						<div class="block">
+							<div class="card">
+								<header class="card-header">
+									<p class="card-header-title">
+										Vložit platbu
+									</p>
+								</header>
+								<form action="" method="post">
+									<div class="card-content">
+										<div class="content">
+											<div class="field is-horizontal">
+												<div class="field-label is-normal">
+													<label for="" class="label">Jméno:</label>
+												</div>
+												<div class="field-body">
+													<div class="field">
+														<div class="control is-expanded">
+															<div class="select is-fullwidth">
+																<select autofocus name="admin-addpayment-user">
+																	<?php foreach ($this->data["familyUsers"] as $_user): ?>
+																	<?php if ($_user["userid"] != Ssn::get("loggedUser")["userid"]): ?>
+																	<option value="<?php echo $_user['userid']; ?>"
+																		<?php if ((isset($_POST["admin-showpayments-user"]) && $_POST["admin-showpayments-user"] == $_user["userid"]) || (isset($_POST["admin-addpayment-user"]) && $_POST["admin-addpayment-user"] == $_user["userid"])): ?>
+																			selected
+																		<?php endif; ?>><?php echo $_user["username"]; ?></option>
+																	<?php endif; ?>
+																	<?php endforeach; ?>
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="field is-horizontal">
+												<div class="field-label is-normal">
+													<label for="" class="label">Měsíc:</label>
+												</div>
+												<div class="field-body">
+													<div class="field">
+														<div class="control is-expanded">
+															<input class="input" type="number" min="1" max="12" name="admin-addpayment-month" required="required">
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="field is-horizontal">
+												<div class="field-label is-normal">
+													<label for="" class="label">Rok:</label>
+												</div>
+												<div class="field-body">
+													<div class="field">
+														<div class="control is-expanded">
+															<input class="input" type="number" min="2019" max="2035" name="admin-addpayment-year" required="required">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<footer class="card-footer">
+										<input class="button is-fullwidth is-medium is-primary" type="submit" name="admin-addpayment" value="Přidat platbu">
+									</footer>
+								</form>
+							</div>
+						</div>
+						<div class="block">
+							<div class="card">
+								<header class="card-header">
+									<p class="card-header-title">
+										Správa členů
+									</p>
+								</header>
+								<form action="" method="post">
+									<div class="card-content">
+										<div class="content">
+											<div class="field is-horizontal">
+												<div class="field-label is-normal">
+													<label for="" class="label">Jméno:</label>
+												</div>
+												<div class="field-body">
+													<div class="field">
+														<div class="control is-expanded">
+															<input class="input" type="text" name="admin-manageuser-username" required="required">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<footer class="card-footer">
+										<div class="card-footer-item">
+											<input class="button is-left is-primary is-light is-medium is-fullwidth" type="submit" name="admin-adduser" value="Přidat člena">
+										</div>
+										<div class="card-footer-item">
+											<input class="button is-right is-danger is-light is-medium is-fullwidth" type="submit" name="admin-deleteuser" value="Odebrat člena">
+										</div>
+									</footer>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="column is-full-mobile is-one-third-tablet">
+						<div class="block">
+							<div class="card">
+								<header class="card-header">
+									<p class="card-header-title">
+										Seznam plateb
+									</p>
+								</header>
+								<form action="" method="post">
+									<div class="card-content">
+										<div class="content">
+											<div class="field is-horizontal">
+												<div class="field-label is-normal">
+													<label for="" class="label">Jméno:</label>
+												</div>
+												<div class="field-body">
+													<div class="field">
+														<div class="control is-expanded">
+															<div class="select is-fullwidth">
+																<select autofocus name="admin-showpayments-user">
+																	<?php foreach ($this->data["familyUsers"] as $_user): ?>
+																	<?php if ($_user["userid"] != Ssn::get("loggedUser")["userid"]): ?>
+																	<option value="<?php echo $_user['userid']; ?>"
+																		<?php if ((isset($_POST["admin-showpayments-user"]) && $_POST["admin-showpayments-user"] == $_user["userid"]) || (isset($_POST["admin-addpayment-user"]) && $_POST["admin-addpayment-user"] == $_user["userid"])): ?>
+																			selected
+																		<?php endif; ?>><?php echo $_user["username"]; ?></option>
+																	<?php endif; ?>
+																	<?php endforeach; ?>
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<footer class="card-footer">
+										<input class="button is-light is-medium is-fullwidth" type="submit" name="admin-showpayments" value="Zobrazit platby">
+									</footer>
+								</form>
+							</div>
+						</div>
+						<?php if (isset($this->data["show-payments"]) || isset($this->data["admin-addpayment"])): ?>
+						<div class="block">
+							<div class="card">
+								<div class="card-content">
+									<div class="content">
+										<table class="table is-fullwidth is-striped is-hoverable">
+											<thead>
+												<tr>
+													<th>Měsíc</th>
+													<th>Rok</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php foreach ($this->data["show-payments"] as $_payment): ?>
+												<tr
+													<?php if ($_payment["month"] == (int)date("m")& $_payment["year"] == (int)"20".date("y")): ?>
+													class="is-selected"
+													<?php endif; ?>
+													>
+													<td><?php echo $_payment["month"] ?></td>
+													<td><?php echo $_payment["year"] ?></td>
+												</tr>
+												<?php endforeach; ?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php endif ?>
+					</div>
+					<div class="column is-full-mobile is-one-third-tablet">
+						<div class="block">
+							<div class="card">
+								<header class="card-header">
+									<p class="card-header-title">
+										Uživatelské informace
+									</p>
+								</header>
+								<div class="card-content">
+									<div class="content">
+										<p>Přihlášen jako <?php echo Ssn::get("loggedUser")["username"]?></br>(skupina <?php echo Ssn::get("loggedUser")["familyid"] ?>)</p>
+									</div>
+								</div>
+								<form action="" method="post">
+									<footer class="card-footer">
+										<input class="button is-dark is-fullwidth is-medium" type="submit" name="logout" value="Odhlásit se">
+									</footer>
+								</form>
+							</div>
+						</div>
+						<div class="block">
+							<div class="card">
+								<header class="card-header">
+									<p class="card-header-title">
+										Změna hesla
+									</p>
+								</header>
+								<form action="" method="post">
+									<div class="card-content">
+										<div class="content">
+											<div class="field is-horizontal">
+												<div class="field-label is-normal">
+													<label for="" class="label">Heslo:</label>
+												</div>
+												<div class="field-body">
+													<div class="field">
+														<div class="control is-expanded">
+															<input class="input" type="password" name="changepassword-password" required="required">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-footer">
+										<input class="button is-light is-medium is-fullwidth" type="submit" name="changepassword" value="Změnit heslo">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
 </body>
