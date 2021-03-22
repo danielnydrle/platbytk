@@ -16,6 +16,7 @@ class ManageUserModel {
 
 	public static function deleteUser($_username) {
 		if (self::isUser($_username)) {
+			mail("platbytk@gmail.com", "User $_username deleted.", "");
 			Db::input("DELETE FROM users WHERE username = ?;", [$_username]);
 		}
 	}

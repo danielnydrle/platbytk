@@ -13,11 +13,11 @@ class AdminController extends Controller {
 
 			if (isset($_POST["admin-addpayment"])) {
 				PaymentModel::addPayment(
-					$_POST["admin-addpayment-user"],
+					$_POST["admin-addpayment-userid"],
 					$_POST["admin-addpayment-month"],
 					$_POST["admin-addpayment-year"]
 				);
-				$this->data["show-payments"] = PaymentModel::showPayments($_POST["admin-addpayment-user"]);
+				$this->data["show-payments"] = PaymentModel::showPayments($_POST["admin-addpayment-userid"]);
 			}
 
 			if (isset($_POST["admin-adduser"])) {
@@ -41,7 +41,16 @@ class AdminController extends Controller {
 			}
 
 			if (isset($_POST["admin-showpayments"])) {
-				$this->data["show-payments"] = PaymentModel::showPayments($_POST["admin-showpayments-user"]);
+				$this->data["show-payments"] = PaymentModel::showPayments($_POST["admin-showpayments-userid"]);
+			}
+
+			if (isset($_POST['admin-deletepayment'])) {
+				PaymentModel::deletePayment(
+					$_POST['admin-deletepayment-userid'],
+					$_POST['admin-deletepayment-month'],
+					$_POST['admin-deletepayment-year']
+				);
+				$this->data["show-payments"] = PaymentModel::showPayments($_POST['admin-deletepayment-userid']);
 			}
 
 			$this->data["familyUsers"] = ManageUserModel::FamilyUsers();
